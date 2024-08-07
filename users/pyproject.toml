@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "users"
+version = "0.1.0"
+description = ""
+authors = ["Maxim Koshur <koshur.max@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+fastapi = "^0.112.0"
+uvicorn = "^0.30.5"
+sqlalchemy = "^2.0.31"
+psycopg2-binary = "^2.9.9"
+envparse = "^0.2.0"
+pydantic = {extras = ["email"], version = "^2.8.2"}
+alembic = "^1.13.2"
+asyncpg = "^0.29.0"
+passlib = "^1.7.4"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
