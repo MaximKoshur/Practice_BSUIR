@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "users"
+name = "cabels"
 version = "0.1.0"
 description = ""
 authors = ["Maxim Koshur <koshur.max@gmail.com>"]
@@ -9,17 +9,12 @@ readme = "README.md"
 python = "^3.10"
 fastapi = "^0.112.0"
 uvicorn = "^0.30.5"
-sqlalchemy = "^2.0.31"
+sqlalchemy = "^2.0.32"
 psycopg2-binary = "^2.9.9"
 envparse = "^0.2.0"
-pydantic = {extras = ["email"], version = "^2.8.2"}
+pydantic = "^2.8.2"
 alembic = "^1.13.2"
 asyncpg = "^0.29.0"
-passlib = "^1.7.4"
-python-jose = "^3.3.0"
-jwt = "^1.3.1"
-pyjwt = "^2.9.0"
-python-multipart = "^0.0.9"
 
 
 [build-system]

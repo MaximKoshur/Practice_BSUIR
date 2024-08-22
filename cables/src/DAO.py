@@ -13,8 +13,8 @@ from sqlalchemy import select
 from sqlalchemy import update
 from sqlalchemy import insert
 from sqlalchemy.ext.asyncio import AsyncSession
-from .users.models import Base, UserModel
-from datetime import datetime
+from .cables.models import Base
+
 ModelType = TypeVar("ModelType", bound=Base)
 CreateSchemaType = TypeVar("CreateSchemaType", bound=BaseModel)
 UpdateSchemaType = TypeVar("UpdateSchemaType", bound=BaseModel)
@@ -32,7 +32,6 @@ class BaseDAO(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
     ):
         stmt = (
             select(cls.model)
-            .where(cls.model.is_active == True)
             .filter(*filter)
             .filter_by(**filter_by)
         )
@@ -48,7 +47,6 @@ class BaseDAO(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
     ):
         stmt = (
             select(cls.model)
-            .where(cls.model.is_active == True)
             .filter(*filter)
             .filter_by(**filter_by)
         )
@@ -60,7 +58,7 @@ class BaseDAO(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
             cls,
             session,
             **kwargs
-    ) -> UserModel:
+    ):
         stmt = insert(cls.model).values(kwargs).returning(cls.model)
         result = await session.execute(stmt)
         return result.scalars().one_or_none()
@@ -76,7 +74,6 @@ class BaseDAO(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
             update_data = obj_in
         else:
             update_data = obj_in.model_dump(exclude_unset=True)
-
         stmt = (
             update(cls.model)
             .where(*where)
@@ -86,14 +83,5 @@ class BaseDAO(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         result = await session.execute(stmt)
         return result.scalars().one()
 
-    @classmethod
-    async def delete(
-        cls,
-        session: AsyncSession,
-        id: uuid.UUID,
-    ):
-        stmt = (
-            delete(cls.model)
-            .where(cls.model == id)
-            )
-        result = await session.execute(stmt)
+
+

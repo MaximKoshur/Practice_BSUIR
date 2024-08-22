@@ -11,3 +11,10 @@ class Hasher:
     @staticmethod
     def verify_password(hashed_password: str, provided_password: str) -> bool:
         return pwd_context.verify(provided_password, hashed_password)
+
+
+"""
+Routers
+for
+Login
+"""
