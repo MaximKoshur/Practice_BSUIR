@@ -19,7 +19,6 @@ ModelType = TypeVar("ModelType", bound=Base)
 CreateSchemaType = TypeVar("CreateSchemaType", bound=BaseModel)
 UpdateSchemaType = TypeVar("UpdateSchemaType", bound=BaseModel)
 
-
 class BaseDAO(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
     model = None
 

@@ -11,13 +11,11 @@ from .schemas import CreateMark
 from .schemas import UpdateMark
 from .schemas import CreateNews
 from .schemas import UpdateNews
-from .schemas import ShowMark
-from .models import Mark
 from ..session import get_db
 from fastapi import APIRouter
 from fastapi import Depends
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select
+from .utils import get_user_id
 
 Cables_router = APIRouter()
 News_router = APIRouter()
@@ -42,7 +40,8 @@ async def get_Cables_list(
 @Cables_router.post("")
 async def create_cables(
         cables: CreateCables,
-        session: AsyncSession = Depends(get_db)
+        session: AsyncSession = Depends(get_db),
+        current_user: uuid.UUID = Depends(get_user_id)
 ):
     return await CablesService.create_new_object(object=cables, session=session)
 
@@ -59,7 +58,8 @@ async def get_Cables(
 async def update_Cables(
         Cables: UpdateCables,
         Cables_id: uuid.UUID,
-        session: AsyncSession = Depends(get_db)
+        session: AsyncSession = Depends(get_db),
+        current_user: uuid.UUID = Depends(get_user_id)
 ):
     return await CablesService.update_object(object_id=Cables_id, object=Cables, session=session)
 
@@ -67,7 +67,8 @@ async def update_Cables(
 @Cables_router.delete("/{Cables_id}")
 async def delete_Cables(
         Cables_id: uuid.UUID,
-        session: AsyncSession = Depends(get_db)
+        session: AsyncSession = Depends(get_db),
+        current_user: uuid.UUID = Depends(get_user_id)
 ):
     await CablesService.delete_object(object_id=Cables_id, session=session)
     return {"message": "Cables was deleted"}
@@ -91,7 +92,8 @@ async def get_Type_list(
 @Type_router.post("")
 async def create_Type(
         Type: CreateType,
-        session: AsyncSession = Depends(get_db)
+        session: AsyncSession = Depends(get_db),
+        current_user: uuid.UUID = Depends(get_user_id)
 ):
     return await TypeService.create_new_object(object=Type, session=session)
 
@@ -108,7 +110,8 @@ async def get_Type(
 async def update_Type(
         Type: UpdateType,
         Type_id: uuid.UUID,
-        session: AsyncSession = Depends(get_db)
+        session: AsyncSession = Depends(get_db),
+        current_user: uuid.UUID = Depends(get_user_id)
 ):
     return await TypeService.update_object(object_id=Type_id, object=Type, session=session)
 
@@ -116,7 +119,8 @@ async def update_Type(
 @Type_router.delete("/{Type_id}")
 async def delete_Type(
         Type_id: uuid.UUID,
-        session: AsyncSession = Depends(get_db)
+        session: AsyncSession = Depends(get_db),
+        current_user: uuid.UUID = Depends(get_user_id)
 ):
     await TypeService.delete_object(object_id=Type_id, session=session)
     return {"message": "Type was deleted"}
@@ -139,7 +143,8 @@ async def get_Mark_list(
 @Mark_router.post("")
 async def create_Mark(
         Mark: CreateMark,
-        session: AsyncSession = Depends(get_db)
+        session: AsyncSession = Depends(get_db),
+        current_user: uuid.UUID = Depends(get_user_id)
 ):
     return await MarkService.create_new_object(object=Mark, session=session)
 
@@ -156,7 +161,8 @@ async def get_Mark(
 async def update_mark(
         mark: UpdateMark,
         mark_id: uuid.UUID,
-        session: AsyncSession = Depends(get_db)
+        session: AsyncSession = Depends(get_db),
+        current_user: uuid.UUID = Depends(get_user_id)
 ):
     return await MarkService.update_object(object_id=mark_id, object=mark, session=session)
 
@@ -164,7 +170,8 @@ async def update_mark(
 @Mark_router.delete("/{Mark_id}")
 async def delete_Mark(
         Mark_id: uuid.UUID,
-        session: AsyncSession = Depends(get_db)
+        session: AsyncSession = Depends(get_db),
+        current_user: uuid.UUID = Depends(get_user_id)
 ):
     await MarkService.delete_object(object_id=Mark_id, session=session)
     return {"message": "Mark was deleted"}
@@ -187,7 +194,8 @@ async def get_News_list(
 @News_router.post("")
 async def create_News(
         News: CreateNews,
-        session: AsyncSession = Depends(get_db)
+        session: AsyncSession = Depends(get_db),
+        current_user: uuid.UUID = Depends(get_user_id)
 ):
     return await NewsService.create_new_object(object=News, session=session)
 
@@ -204,7 +212,8 @@ async def get_News(
 async def update_News(
         News: UpdateNews,
         News_id: uuid.UUID,
-        session: AsyncSession = Depends(get_db)
+        session: AsyncSession = Depends(get_db),
+        current_user: uuid.UUID = Depends(get_user_id)
 ):
     return await NewsService.update_object(object_id=News_id, object=News, session=session)
 
@@ -212,7 +221,8 @@ async def update_News(
 @News_router.delete("/{News_id}")
 async def delete_News(
         News_id: uuid.UUID,
-        session: AsyncSession = Depends(get_db)
+        session: AsyncSession = Depends(get_db),
+        current_user: uuid.UUID = Depends(get_user_id)
 ):
     await NewsService.delete_object(object_id=News_id, session=session)
     return {"message": "News was deleted"}

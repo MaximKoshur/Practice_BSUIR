@@ -42,9 +42,9 @@ class TokenUtils:
             )
             user_id = payload.get("sub")
             if user_id is None:
-                raise status.HTTP_404_NOT_FOUND
+                raise status.HTTP_401_UNAUTHORIZED
         except Exception:
-            raise status.HTTP_400_BAD_REQUEST
+            raise status.HTTP_401_UNAUTHORIZED
         return user_id
 
     @classmethod
@@ -111,7 +111,7 @@ class TokenUtils:
                 raise status.HTTP_404_NOT_FOUND
 
             access_token = cls._create_access_token(user.id)
-            refresh_token_expires = timedelta(days=settings.REFRESH_TOKEN_EXPIRE_DAYS)
+            refresh_token_expires = timedelta(days=REFRESH_TOKEN_EXPIRE_DAYS)
             refresh_token = cls._create_refresh_token()
 
             await RefreshSessionDAO.update(
@@ -148,7 +148,7 @@ class TokenUtils:
         to_encode = {
             "sub": str(user_id),
             "exp": datetime.utcnow()
-                   + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES),
+                   + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES*10000),
         }
         encoded_jwt = jwt.encode(
             to_encode, SECRET_KEY, algorithm=ALGORITHM
